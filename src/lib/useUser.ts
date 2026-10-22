@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/lib/storage";
 import type { User } from "@/types";
 
-// Hook penjaga halaman: kembalikan akun yang login, atau arahkan ke halaman login.
 export function useUser() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);

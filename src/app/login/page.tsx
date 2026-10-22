@@ -15,7 +15,6 @@ export default function LoginPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Validasi dengan pesan error yang spesifik
     const next: typeof errors = {};
     if (!email.trim()) next.email = "Email wajib diisi.";
     else if (!/^\S+@\S+\.\S+$/.test(email)) next.email = "Format email tidak valid, contoh: nama@quizquest.id.";

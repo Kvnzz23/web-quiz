@@ -21,15 +21,14 @@ export function logout() {
   localStorage.removeItem(LOGIN_KEY);
 }
 
-interface StreakData { count: number; last: string } // last = tanggal terakhir belajar (YYYY-MM-DD)
+interface StreakData { count: number; last: string }
 
-const dayKey = (d: Date) => d.toLocaleDateString("sv-SE"); // format YYYY-MM-DD (waktu lokal)
+const dayKey = (d: Date) => d.toLocaleDateString("sv-SE"); 
 const TODAY = () => dayKey(new Date());
 const YESTERDAY = () => dayKey(new Date(Date.now() - 86_400_000));
 
 function readStreak(user: User): StreakData {
   const raw = localStorage.getItem(streakKey(user));
-  // Akun demo dianggap terakhir belajar kemarin, supaya streak awalnya tetap berlaku.
   return raw ? JSON.parse(raw) : { count: user.streak, last: YESTERDAY() };
 }
 
@@ -40,7 +39,7 @@ export function getStreak(user: User): number {
 
 function recordPractice(user: User) {
   const { count, last } = readStreak(user);
-  if (last === TODAY()) return; // hari ini sudah dihitung
+  if (last === TODAY()) return;
   const next = last === YESTERDAY() ? count + 1 : 1;
   localStorage.setItem(streakKey(user), JSON.stringify({ count: next, last: TODAY() }));
 }
@@ -63,6 +62,6 @@ export function getStats(user: User) {
   const xp = user.xp + history.reduce((sum, h) => sum + h.xp, 0);
   const accuracy = history.length
     ? Math.round(history.reduce((sum, h) => sum + (h.score / h.total) * 100, 0) / history.length)
-    : null; // null = belum pernah kuis
+    : null;
   return { xp, level: Math.floor(xp / XP_PER_LEVEL) + 1, xpInLevel: xp % XP_PER_LEVEL, accuracy, streak: getStreak(user) };
 }
